@@ -1,0 +1,12 @@
+body{
+    margin: 0px;
+    background-image: url("../assets/BackGround.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/*
+body {
+    background: #ffffff url("../assets/BackGround.jpg") no-repeat right top;
+}*/
