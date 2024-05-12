@@ -3,12 +3,12 @@ package com.example.demo.controllers;
 import com.example.demo.constants.ContentCreation;
 import com.example.demo.constants.TextConstants;
 import com.example.demo.dto.AccountCreationDTO;
+import com.example.demo.dto.AccountDeletionDTO;
 import com.example.demo.service.EmailSender;
-import com.example.demo.validators.AccountCreationValidator;
+import com.example.demo.validators.AccountValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +27,7 @@ public class Controller {
 
     @PostMapping("/accountCreatedEmail")
     private ResponseEntity<String> accountCreated(@RequestHeader HttpHeaders header, @RequestBody AccountCreationDTO accountCreationDTO){
-        if(AccountCreationValidator.validateClient(accountCreationDTO))
+        if(AccountValidator.validateClient(accountCreationDTO))
         {
             String token = header.getFirst("AUTHORIZATION");
             if(token != null && token.startsWith("Bearer"))
@@ -36,6 +36,27 @@ public class Controller {
                 if(token.startsWith(accountCreationDTO.getUuid().toString()) && token.substring(37).contains(TextConstants.TOKEN))
                 {
                     emailSender.sendEmails(accountCreationDTO.getEmail(),TextConstants.accountCreationSubject, ContentCreation.accountCreationContent(accountCreationDTO));
+
+                    return  new ResponseEntity<>(TextConstants.emailSent, HttpStatus.ACCEPTED);
+                }
+                return new ResponseEntity<>(TextConstants.invalidToken, HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(TextConstants.invalidToken, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(TextConstants.invalidData, HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/accountDeletedEmail")
+    private ResponseEntity<String> txtFileGenerated(@RequestHeader HttpHeaders header, @RequestBody AccountDeletionDTO accountDeletionDTO){
+        if(AccountValidator.validateClient(accountDeletionDTO))
+        {
+            String token = header.getFirst("AUTHORIZATION");
+            if(token != null && token.startsWith("Bearer"))
+            {
+                token = token.substring(7);
+                if(token.startsWith(accountDeletionDTO.getUuid().toString()) && token.substring(37).contains(TextConstants.TOKEN))
+                {
+                    emailSender.sendEmails(accountDeletionDTO.getEmail(),TextConstants.accountDeletionSubject, ContentCreation.accountDeletionContent(accountDeletionDTO));
 
                     return  new ResponseEntity<>(TextConstants.emailSent, HttpStatus.ACCEPTED);
                 }

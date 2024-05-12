@@ -21,6 +21,12 @@ public class AMQPConfig {
     }
 
     @Bean
+    public Queue confirmAccountDeletion()
+    {
+        return new Queue(TextConstants.DeleteAccountConfirmQueue);
+    }
+
+    @Bean
     public MessageConverter jsonMessageConverter()
     {
         return new Jackson2JsonMessageConverter();
