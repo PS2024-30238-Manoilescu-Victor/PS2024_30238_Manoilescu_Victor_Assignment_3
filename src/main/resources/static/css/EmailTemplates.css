@@ -1,9 +1,10 @@
 body{
     margin: 0px;
-    background-image: url("../assets/BackGround.jpg");
+    background-image: url("https://files.123freevectors.com/wp-content/original/114550-turquoise-and-white-diagonal-stripes-background-vector.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    color: turquoise;
 }
 
 /*
