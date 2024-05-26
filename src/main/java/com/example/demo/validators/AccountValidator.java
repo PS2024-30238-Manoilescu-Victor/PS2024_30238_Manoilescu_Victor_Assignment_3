@@ -2,6 +2,7 @@ package com.example.demo.validators;
 
 import com.example.demo.dto.AccountCreationDTO;
 import com.example.demo.dto.AccountDeletionDTO;
+import com.example.demo.dto.OrderFinalisationDTO;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +31,18 @@ public class AccountValidator {
         Matcher matcher3 = pattern2.matcher(accountDeletionDTO.getPrenume());
 
         return (matcher.matches() && matcher2.matches() && matcher3.matches() && !accountDeletionDTO.getUuid().toString().equals(""));
+    }
+
+    public static boolean validateClient(OrderFinalisationDTO orderFinalisationDTO)
+    {
+        Pattern pattern = Pattern.compile("[a-zA-Z0-9]+@[a-zA-Z]+(.ro|.com|.org)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(orderFinalisationDTO.getEmail());
+
+        Pattern pattern2 = Pattern.compile("[a-zA-Z -]+", Pattern.CASE_INSENSITIVE);
+        Matcher matcher2 = pattern2.matcher(orderFinalisationDTO.getNume());
+        Matcher matcher3 = pattern2.matcher(orderFinalisationDTO.getPrenume());
+
+        return (matcher.matches() && matcher2.matches() && matcher3.matches() && !orderFinalisationDTO.getUuid().toString().equals(""));
     }
 
 }

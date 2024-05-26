@@ -27,6 +27,8 @@ public class AMQPConfig {
     }
 
     @Bean
+    public Queue confirmOrderFinalisation() {return new Queue(TextConstants.FinaliseOrderConfirmQueue);}
+    @Bean
     public MessageConverter jsonMessageConverter()
     {
         return new Jackson2JsonMessageConverter();
